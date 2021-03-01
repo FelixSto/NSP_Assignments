@@ -2,7 +2,7 @@
 This repository contains the teaching materials for the Nonlinear Signal Processing problem classes (442.022) held during the summer term 2021 at Graz University of Technology. You can enroll via the university's online interface [here](https://online.tugraz.at/). See the [course homepage](https://www.spsc.tugraz.at/courses/nonlinear-signal-processing.html) for additional information about the corresponding lecture. The content of this repository will be continuously updated as the course progresses.
 
 ## Course Overview
-This course serves as a supplement to the Nonlinear Signal Processing lecture (442.021), as we will elaborate on some of the theoretical concepts introduced in the lecture and discuss more recent applications (e.g. neural network architectures, normalizing flows, WaveNet, ...) of these principles. Finally, we will apply the gained knowledge by implementing some experiments. We will work ourselves through the content by roughly following the structure of the lecture. See the [Logistics](#logistics) for the planned schedule.
+This course serves as a supplement to the Nonlinear Signal Processing lecture (442.021), as we will elaborate on some of the theoretical concepts introduced in the lecture and discuss more recent applications (e.g. neural network architectures for system identification, normalizing flows, WaveNet, ...) of these principles. Finally, we will apply the gained knowledge by implementing some experiments. We will work ourselves through the content by roughly following the structure of the lecture. See the [Logistics](#logistics) for the planned schedule.
 
 ### Prerequisites
 We expect you to know about undergraduate math, specifically basic probability theory and statistics (e.g. Bayes' Law, expectations, estimators, ...) and some linear algebra. Moreover, an introductory course in either machine learning or (linear) signal processing is strongly recommended. Knowledge about neural networks would be beneficial but is not necessary.  For the implementation tasks some experience with Python and the Numpy, Scipy and PyTorch packages would come in handy, but that is nothing you cannot learn during the course. Apart from that, we will try to keep the course as self-contained as possible.
@@ -37,9 +37,9 @@ We will try to cover the materials in approximately eight sessions (90 minutes e
 
 <sup>* MLS = memoryless systems, FMS = fading memory systems, NFMS = non-fading memory systems</sup>
 
-Due to the current circumstances around the Corona virus, we have to be more flexible this semester.  We will start by having our sessions virtually via the BigBlueButton tool that is available via the [Teachcenter](https://tc.tugraz.at/main/course/view.php?id=1487). Should the regulations allow for it, we will meet in person to work on our topics. In that case, registered participants will be notified via email at least one week in advance.
+Due to the current circumstances around the Corona virus, we have to be more flexible this semester.  We will start by having our sessions virtually via the BigBlueButton tool that is available via the [TeachCenter](https://tc.tugraz.at/main/course/view.php?id=1487). Should the regulations allow for it, we will meet in person to work on our topics. In that case, registered participants will be notified via email at least one week in advance.
 
-Lastly, we will mainly communicate via the [Teachcenter](https://tc.tugraz.at/main/course/view.php?id=1487) forum, as most of the questions asked are usually relevant to the majority of participants.  For personal issues (e.g. regarding organization, grading, ...) you can of course contact me personally ([contact information](https://online.tugraz.at/tug_online/visitenkarte.show_vcard?pPersonenId=714AAFF2617048A1&pPersonenGruppe=3)).
+Regarding communication I intend to mainly communicate via a dedicated Discord server (the invite link is accessible via the TeachCenter). You can also ask your questions in the TeachCenter forum but discussions are expected to be more lively on Discord. Important announcements will be made via email to registered participants. For personal issues (e.g. regarding organization, grading, ...) you can of course contact me personally ([contact information](https://online.tugraz.at/tug_online/visitenkarte.show_vcard?pPersonenId=714AAFF2617048A1&pPersonenGruppe=3)).
 
 ## Getting Started
 Follow the instructions below to get your (Linux) system ready for working on the assignments. ***We strongly recommend you to work on a Linux-based system.*** It will make your life easier. Alternatively, working on a Mac should do as well. It might be painful to get your setup right on Windows (although it's doable).
@@ -65,8 +65,8 @@ git pull upstream master
 We recommend to use [Miniconda](https://docs.conda.io/en/latest/miniconda.html) to setup your Python environment. You can install the latest version like so:
 ```
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x Miniconda-latest-Linux-x86_64.sh
-./Miniconda-latest-Linux-x86_64.sh
+chmod +x Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
 ```
 Once you have Miniconda installed, create a virtual environment from the included environment description in `environment.yml` like so:
 ```
@@ -106,14 +106,11 @@ Below is a schematic file tree of this repository.  You should stick to this str
 ### Mandatory
 You have to submit your assignment solutions via the [Teachcenter](https://tc.tugraz.at/main/course/view.php?id=1487). Each submission **must** include a written report in `.pdf` format, containing your results and summarizing your findings. Make sure to include a title page with the names and registration numbers of all group members. Additionally, you **must** provide your *well structured and commented* source code packed into a `.zip` file.
 ### Optional
-Optionally, I would encourage you to use a personal GitHub account for your work and to make it publicly available. Why? Whatever interesting job you might apply for in the future, showing that you can work with Git and produce readable and reusable code will be at the least a huge bonus. If you decide to so, please
-  - include the link to your repository in your report and [tag](https://www.atlassian.com/git/tutorials/inspecting-a-repository/git-tag) your submission commit with `submission_X` where `X` stands for the assignment number. 
-  - include a short description of the repository content (i.e. your work) and a link to *this* repository in a README.md file. 
-  - There are tons of material about best practices for Git, readmes, etc. available online - have a look!
+Optionally, I would encourage you to use a personal GitHub account for your work and to make it publicly available **after the final submission deadline** (to avoid the temptation for plagiarism). Why? Whatever interesting job you might apply for in the future, showing that you can work with Git and produce readable and reusable code will be at the least a huge bonus. If you decide to so, please include a short description of the repository content (i.e. your work) and a link to *this* repository in a README.md file. There are tons of material about best practices for Git, readmes, etc. available online - have a look!
 
 You could also decide to share only a subset of the assignments that you feel very confident about. In that case forget about the tag but do link back to this course repository.
 
 ## Acknowledgements
-Many thanks to Christian Knoll and Gernot Kubin for helpful discussions and remarks on the conception of this course.
+Many thanks to Christian Knoll and Gernot Kubin for helpful discussions and remarks on the conception of this course. Thanks to Daniel Uhl for pointing out issues with the submission modalities in the first version of this Readme and for suggesting to use Discord as a communication platform.
 
 ## Credits
