@@ -27,8 +27,8 @@ We will try to cover the materials in approximately eight sessions (90 minutes e
 | Date        | Session Content  |
 |:-----------:|:-----------------|
 | 19 Mar 2021 | MLS<sup>*</sup>: Introduction, System Identification |
-| 27 Mar 2021 | MLS<sup>*</sup>: Cumulants: Analysis and Estimation |
-|   9 Apr 2021 | MLS<sup>*</sup>: Propagation of Uncertainty, Normalizing Flows |
+| 26 Mar 2021 | MLS<sup>*</sup>: Cumulants: Analysis and Estimation |
+| 16 Apr 2021 | MLS<sup>*</sup>: Propagation of Uncertainty, Normalizing Flows |
 | 30 Apr 2021 | FMS<sup>*</sup>: Higher-order Statistics in Practice |
 | 07 May 2021 | FMS<sup>*</sup>: System identification with Convolutional Neural Networks |
 | 28 May 2021 | NFMS<sup>*</sup>: Fixed points and Stability Analysis |
