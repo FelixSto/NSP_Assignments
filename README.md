@@ -62,7 +62,7 @@ git pull upstream master
 ```
 
 ### 2. Set up your Python environment
-We recommend to use [Miniconda](https://docs.conda.io/en/latest/miniconda.html) to setup your Python environment. You can install the latest version like so:
+We recommend to use [Miniconda](https://docs.conda.io/en/latest/miniconda.html) to setup your Python environment which is available for Windows, Linux and MacOSX. You can get the latest version from [here](https://docs.conda.io/en/latest/miniconda.html)  or install it like so (Linux):
 ```
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
@@ -70,7 +70,7 @@ chmod +x Miniconda3-latest-Linux-x86_64.sh
 ```
 Once you have Miniconda installed, create a virtual environment from the included environment description in `environment.yml` like so:
 ```
-conda env create -f /path/to/local/nonlinear-signal-processing-2021/environment.yml
+conda env create -f /path/to/local/nonlinear-signal-processing-2021/environment.yaml
 ```
 Finally, activate the conda environment via 
 ```
@@ -80,6 +80,15 @@ and set your python path to the repository root
 ```
 export PYTHONPATH="/path/to/local/nonlinear-signal-processing-2021/"
 ```
+
+In case the environment specification in the `environment.yaml` changes after you have created you conda environment, you can simply update it via
+```
+conda env update -n nsp2021 -f environment.yaml
+```
+
+#### Optional: Latex for Matplotlib
+If you want to use Latex in combination with Matplotlib, make sure that you have Latex distribution installed and the executables are included in your PATH. See [here](https://matplotlib.org/stable/tutorials/text/usetex.html) for more details.
+
 
 ### 3. Get familiar with the repository structure
 Below is a schematic file tree of this repository.  You should stick to this structure when adding your work.
