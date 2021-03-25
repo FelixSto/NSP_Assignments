@@ -71,10 +71,10 @@ def load_audio(path):
     Returns
     ------
     numpy.ndarray, int
-        The audio as numpy array and its sampling rate.
+        The audio as numpy array and its sampling rate. Samples are in range [-1,1].
     """
     audio, samplerate = torchaudio.load(path)
-    return audio, samplerate
+    return audio.numpy(), samplerate
 
 
 def save_audio(path, audio, sample_rate):
