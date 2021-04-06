@@ -46,7 +46,7 @@ def show_grayscale_img(img: np.array, figsize=(12, 9)):
         The size of the figure. Default size is (12,9).
     """
     plt.figure(figsize=figsize)
-    plt.imshow(img, cmap='gray', vmin=0, vmax=255)
+    plt.imshow(img, cmap='gray', vmin=0, vmax=255, origin='lower')
     ax = plt.gca()
     ax.xaxis.set_visible(False)
     ax.yaxis.set_visible(False)
