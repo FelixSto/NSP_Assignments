@@ -1,4 +1,4 @@
-# Nonlinear Signal Processing
+# Nonlinear Signal Processing - Sophie and Felix
 This repository contains the teaching materials for the Nonlinear Signal Processing problem classes (442.022) held during the summer term 2021 at Graz University of Technology. You can enroll via the university's online interface [here](https://online.tugraz.at/). See the [course homepage](https://www.spsc.tugraz.at/courses/nonlinear-signal-processing.html) for additional information about the corresponding lecture. The content of this repository will be continuously updated as the course progresses.
 
 ## Course Overview
