@@ -9,7 +9,7 @@ def init_plot_style():
     """
     plt.rcParams.update({'figure.figsize': (12, 9)})
     plt.rcParams.update({'lines.linewidth': 2})
-    plt.rcParams.update({'lines.markersize': 8})
+    plt.rcParams.update({'lines.markersize': 12})
     plt.rcParams.update({'lines.markeredgewidth': 2})
     plt.rcParams.update({'axes.labelpad': 10})
     plt.rcParams.update({'xtick.major.width': 2.5})
