@@ -4,7 +4,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
 
-class RbfMLP(nn.Module):
+class VarRbfMLP(nn.Module):
     """
     A simple feed-forward network with one input/output unit, two hidden layers and tanh activation.
 
@@ -20,19 +20,21 @@ class RbfMLP(nn.Module):
         the number of legs the animal has (default 4)
     """
 
-    def __init__(self, hidden_size):
+    def __init__(self, h_sizes):
         """
         Parameters
         ----------
-        hidden_size : list of integers, defining the site of the hidden layers. Number of hidden layers corresponds to size of hidden_size.
+        hidden_size : int
             Number of hidden units per hidden layer (default is 32)
         """
         super().__init__()
         
-        self.hidden_size = hidden_size
-        self.hidden_layer_1 = nn.Linear(1, self.hidden_size)
-        #self.hidden_layer_2 = nn.Linear(self.hidden_size, self.hidden_size)
-        self.output_layer = nn.Linear(self.hidden_size, 1)
+        self.hidden = []
+        for k in range(len(h_sizes)-1):
+            self.hidden.append(nn.Linear(h_sizes[k], h_sizes[k+1]))
+            self.add_module("hidden_layer"+str(k), self.hidden[-1])
+            
+        self.output_layer = nn.Linear(h_sizes[-1], 1)
 
     def forward(self, x):
         """Forward pass of the network.
@@ -54,10 +56,13 @@ class RbfMLP(nn.Module):
         # get input into shape (batch_size, 1)
         x = x.view((-1, 1))
 
-        # compute forward pass
-        z1 = torch.exp(-torch.pow(self.hidden_layer_1(x),2))
-        #z2 = torch.exp(-torch.pow(self.hidden_layer_2(z1),2))
-        output = self.output_layer(z1)
+        # compute forward pass+
+        
+        # Feedforward
+        for layer in self.hidden:
+            x = torch.exp(-torch.pow(self.layer(x),2))
+            
+        output = self.output_layer(x)
         return output
     
     def predict(self, x):
