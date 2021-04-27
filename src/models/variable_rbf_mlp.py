@@ -24,12 +24,13 @@ class VarRbfMLP(nn.Module):
         """
         Parameters
         ----------
-        hidden_size : int
-            Number of hidden units per hidden layer (default is 32)
+        h_sizes: list, length of the list specifys the number of hidden layer, value of each entry specifys the dimensionality of the neurons. 
+        a_func: defines the activation function
         """
         super().__init__()
         
-        self.hidden = []
+        self.hidden = nn.ModuleList()
+        h_sizes.insert(0, 1) #input layer has dimensionality one!
         for k in range(len(h_sizes)-1):
             self.hidden.append(nn.Linear(h_sizes[k], h_sizes[k+1]))
             self.add_module("hidden_layer"+str(k), self.hidden[-1])
@@ -59,8 +60,14 @@ class VarRbfMLP(nn.Module):
         # compute forward pass+
         
         # Feedforward
-        for layer in self.hidden:
-            x = torch.exp(-torch.pow(self.layer(x),2))
+        
+        m = nn.Sigmoid()
+        #m = nn.Tanh()
+        #m = nn.ReLU()
+        
+        for layer in range(len(self.hidden)-1):
+            #x = torch.exp(-torch.pow(self.hidden[layer](x),2))
+            x = m(self.hidden[layer](x))
             
         output = self.output_layer(x)
         return output
@@ -82,7 +89,7 @@ class VarRbfMLP(nn.Module):
         return output.detach().numpy()    
     
     
-    def fit(self, data, targets, batch_size=5, learning_rate=5e-2, max_epochs=300):
+    def fit(self, data, targets, batch_size=5, learning_rate=1e-2, max_epochs=300):
         """Train the network on the given data.
 
         Parameters
