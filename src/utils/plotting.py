@@ -66,7 +66,7 @@ def ex2_signal_time_frequency(x,y,y_0,y_ln,f,Y,Y_0,Y_ln, fs=1,figsize=(12, 9),ti
     ax[0].set_title(title)
     ax[0].grid()
 
-    markers, stems, _  = ax[1].stem(f,Y, label='Input Spectrum',markerfmt = 'C0o', linefmt = 'C0-',basefmt=" ")
+    markers, stems, _  = ax[1].stem(f,Y, label='Original Spectrum',markerfmt = 'C0o', linefmt = 'C0-',basefmt=" ")
     stems.set_linewidth(4) 
     stems.set_alpha(0.5)
     markers.set_markersize(15)
