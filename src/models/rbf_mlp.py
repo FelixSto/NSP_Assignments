@@ -55,7 +55,7 @@ class RbfMLP(nn.Module):
         x = x.view((-1, 1))
 
         # compute forward pass
-        z1 = torch.exp(-torch.pow(self.hidden_layer_1(x),2))
+        z1 = torch.exp(-torch.pow(self.hidden_layer_1(x),2)) # gaussian activation function
         output = self.output_layer(z1)
         return output
     

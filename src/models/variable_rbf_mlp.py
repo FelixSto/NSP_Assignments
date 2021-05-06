@@ -6,25 +6,14 @@ from torch.utils.data import DataLoader, TensorDataset
 
 class VarRbfMLP(nn.Module):
     """
-    A simple feed-forward network with one input/output unit, two hidden layers and tanh activation.
-
-    Attributes
-    ----------
-    hidden_size : int
-        Number of hidden units per hidden layer
-    hidden_layer_1 : str
-        the name of the animal
-    hidden_layer_2 : str
-        the sound that the animal makes
-    output_layer : int
-        the number of legs the animal has (default 4)
+    A simple feed-forward network with one input/output unit, variable hidden layers and activation.
     """
 
     def __init__(self, h_sizes):
         """
         Parameters
         ----------
-        h_sizes: list, length of the list specifys the number of hidden layer, value of each entry specifys the dimensionality of the neurons. 
+        h_sizes: list, length of the list specifys the number of hidden layer, value of each entry specifys the dimensionality         of the neurons. Note that the NN assumes at least two layers, and that the output layer (last element of h_sizes) has           the same dimensionalyty as the last hidden layer!
         a_func: defines the activation function
         """
         super().__init__()
@@ -62,7 +51,7 @@ class VarRbfMLP(nn.Module):
         # Feedforward
         
         
-        #Uncomment to change the activation function
+        #Uncomment to change the activation function!
         m = nn.Sigmoid()
         #m = nn.Tanh()
         #m = nn.ReLU()
