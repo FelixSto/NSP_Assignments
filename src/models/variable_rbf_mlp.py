@@ -61,12 +61,14 @@ class VarRbfMLP(nn.Module):
         
         # Feedforward
         
+        
+        #Uncomment to change the activation function
         m = nn.Sigmoid()
         #m = nn.Tanh()
         #m = nn.ReLU()
         
         for layer in range(len(self.hidden)-1):
-            #x = torch.exp(-torch.pow(self.hidden[layer](x),2))
+            #x = torch.exp(-torch.pow(self.hidden[layer](x),2)) #uncomment for Gaussian RBF
             x = m(self.hidden[layer](x))
             
         output = self.output_layer(x)

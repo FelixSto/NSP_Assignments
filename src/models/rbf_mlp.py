@@ -56,7 +56,6 @@ class RbfMLP(nn.Module):
 
         # compute forward pass
         z1 = torch.exp(-torch.pow(self.hidden_layer_1(x),2))
-        #z2 = torch.exp(-torch.pow(self.hidden_layer_2(z1),2))
         output = self.output_layer(z1)
         return output
     
