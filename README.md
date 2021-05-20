@@ -29,8 +29,8 @@ We will try to cover the materials in approximately eight sessions (90 minutes e
 | 19 Mar 2021 | MLS<sup>*</sup>: Introduction, System Identification |
 | 26 Mar 2021 | MLS<sup>*</sup>: Cumulants: Analysis and Estimation |
 | 16 Apr 2021 | MLS<sup>*</sup>: Propagation of Uncertainty, Normalizing Flows |
-| 30 Apr 2021 | FMS<sup>*</sup>: Higher-order Statistics in Practice |
-| 07 May 2021 | FMS<sup>*</sup>: System identification with Convolutional Neural Networks |
+| 14 May 2021 | FMS<sup>*</sup>: System identification with Convolutional Neural Networks |
+| 21 May 2021 | FMS<sup>*</sup>: Higher-order Statistics in Practice |
 | 28 May 2021 | NFMS<sup>*</sup>: Fixed points and Stability Analysis |
 | 04 Jun 2021 | NFMS<sup>*</sup>: Analysis of Chaotic Systems |
 | 11 Jun 2021 | NFMS<sup>*</sup>: Synthesis with Recurrent Architectures, Wavenet |
@@ -103,7 +103,7 @@ Below is a schematic file tree of this repository.  You should stick to this str
     |
     ├── src                 <- Python source code.
     │   ├── __init__.py     <- Makes src a Python module
-    │   ├── data            <- Data cleaning, I/O, ...
+    │   ├── models            <- Trainable (PyTorch) models, ...
     │   ├── scripts         <- Scripts for running experiments.
     │   ├── utils           <- Utils for plotting, ...
     |
