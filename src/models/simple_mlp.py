@@ -12,12 +12,6 @@ class SimpleMLP(nn.Module):
     ----------
     hidden_size : int
         Number of hidden units per hidden layer
-    hidden_layer_1 : str
-        the name of the animal
-    hidden_layer_2 : str
-        the sound that the animal makes
-    output_layer : int
-        the number of legs the animal has (default 4)
     """
 
     def __init__(self, hidden_size=32):
