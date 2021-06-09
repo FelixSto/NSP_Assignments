@@ -7,7 +7,7 @@ class KeyWordCNN1d(nn.Module):
     """
     """
 
-    def __init__(self, num_classes, num_features, num_kernels, mem_depth):
+    def __init__(self, num_classes, num_features, num_kernels ,mem_depth, num_groups):
         """
         Parameters
         ----------
@@ -25,12 +25,14 @@ class KeyWordCNN1d(nn.Module):
         self.mem_depth = mem_depth
         self.num_classes = num_classes
         self.num_features = num_features
+        self.num_groups = num_groups
         
         #TODO: define your model here
                 
-        self.conv_layer = nn.Conv1d(1, num_kernels, kernel_size=mem_depth, padding=mem_depth - 1)  
-        self.linear = nn.Linear(num_kernels, 32)
-        self.output_layer = nn.Linear(32, 1)
+        self.conv_layer = nn.Conv1d(num_features, num_kernels, kernel_size=mem_depth, 
+                                    groups = num_groups, padding=mem_depth - 1)  
+        self.linear = nn.Linear(num_kernels, 256)
+        self.output_layer = nn.Linear(256, 5)
 
     def forward(self, x:torch.Tensor):
         """Forward pass of the network.
@@ -50,15 +52,20 @@ class KeyWordCNN1d(nn.Module):
         
         if len(x.shape) != 3:
             x = torch.squeeze(x)
+            
+        batch_size = x.shape[0]   # depends
+        in_channels = x.shape[1]  # 40 
+        signal_length = x.shape[2]# 81
 
-        z1 = torch.relu(self.conv_layer(x))
-        z2 = torch.mean(z1,dim=2)
-        #z2 = self.flatten(z2)
-        z3 = z2.permute(0, 2, 1)  
-        z4 = torch.relu(self.linear(z3))
-        output = F.log_softmax(self.output_layer(z4),dim=1)
+        x = torch.relu(self.conv_layer(x))
+        x = torch.mean(x,dim=2)
+        x = torch.relu(self.linear(x))
+        x = self.output_layer(x)
+        output = F.log_softmax(x,dim=1)
+        
         # return output
-        pass
+        
+        return output.view(batch_size, -1)[:, :signal_length]
 
 
 class KeyWordCNN2d(nn.Module):
@@ -85,7 +92,7 @@ class KeyWordCNN2d(nn.Module):
         self.num_classes = num_classes
         #TODO: define your model here
 
-    def forward(self, x):
+    def forward(self, x):num_groups
         """Forward pass of the network.
 
         Parameters
