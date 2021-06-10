@@ -70,19 +70,16 @@ class KeyWordCNN1d(nn.Module):
         batch_size = x.shape[0]
         in_channels = x.shape[1]  # 40 in our case
         signal_length = x.shape[2]
-        print('0: ', x.shape)
+
         x = torch.relu(self.conv_layer(x))
-        print('1: ', x.shape)
-        
-       	if self.task_str == 'd':
+
+        if self.task_str == 'd':
         	x = torch.relu(self.bn1(x))
         elif self.task_str == 'e':
         	x = torch.relu(self.bn1(x))
         	x = torch.relu(self.pool1(x))
         	
-        print('2: ', x.shape)
         x = torch.mean(x,dim=2)
-        print('3: ', x.shape)
         x = torch.relu(self.linear1(x))
         x = self.linear_out(x)
         
@@ -116,10 +113,10 @@ class KeyWordCNN2d(nn.Module):
         self.num_classes = num_classes
         #TODO: define your model here
         
-        self.conv_layer = nn.Conv2d(1, num_kernels, kernel_size=mem_depth,
-        	padding=mem_depth - 1)  
+        self.conv_layer = nn.Conv2d(1, num_kernels, kernel_size=(num_features, mem_depth),
+        	padding=(num_features-1, mem_depth-1))  
         self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear((num_features+mem_depth-1)*num_kernels, 128*3)        
+        self.linear1 = nn.Linear(num_kernels*(2*num_features-1), 128*3)        
         self.linear_out = nn.Linear(128*3, 5)
 
     def forward(self, x):
@@ -135,23 +132,17 @@ class KeyWordCNN2d(nn.Module):
         torch.Tensor
             The network output (softmax logits) of shape (batch_size, num_classes)
         """
-        
+        if len(x.shape) != 4:
+            x = torch.unsqueeze(x,0)
+            
         batch_size = x.shape[0]
         in_channels = x.shape[1]  # 1 in our case
         num_features = x.shape[2]
         signal_length = x.shape[3]
-        
+
         x = torch.relu(self.conv_layer(x))	
-        
-        #y = self.flatten(x)
         x = torch.mean(x,dim=3)
-        #print('1: ', x.shape)
-        #print('2: ', x.shape)
-        #x = torch.mean(x,dim=2)
         x = self.flatten(x)
-        
-        #print('1: ', x.shape)
-        
         x = torch.relu(self.linear1(x))
         x = self.linear_out(x)
         
