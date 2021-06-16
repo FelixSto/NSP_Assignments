@@ -41,7 +41,7 @@ class KeyWordCNN1d(nn.Module):
         	padding=mem_depth - 1)  
         	
         self.bn1 = nn.BatchNorm1d(num_kernels)
-        self.pool1 = nn.MaxPool1d(20)
+        self.pool1 = nn.MaxPool1d(30)
         
         self.linear1 = nn.Linear(num_kernels, 128*3)        
         self.linear_out = nn.Linear(128*3, 5)
@@ -73,13 +73,18 @@ class KeyWordCNN1d(nn.Module):
 
         x = torch.relu(self.conv_layer(x))
 
+        #print('before pool:',x.shape)
+	
         if self.task_str == 'd':
         	x = torch.relu(self.bn1(x))
         elif self.task_str == 'e':
-        	x = torch.relu(self.bn1(x))
+        	#x = torch.relu(self.bn1(x))
         	x = torch.relu(self.pool1(x))
+
+        #print('after pool:',x.shape)
         	
         x = torch.mean(x,dim=2)
+        #print('after mean:',x.shape)
         x = torch.relu(self.linear1(x))
         x = self.linear_out(x)
         
