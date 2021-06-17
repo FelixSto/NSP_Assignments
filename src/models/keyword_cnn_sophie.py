@@ -43,8 +43,8 @@ class KeyWordCNN1d(nn.Module):
         self.bn1 = nn.BatchNorm1d(num_kernels)
         self.pool1 = nn.MaxPool1d(30)
         
-        self.linear1 = nn.Linear(num_kernels, 128*3)        
-        self.linear_out = nn.Linear(128*3, 5)
+        self.linear1 = nn.Linear(num_kernels, 1024)        
+        self.linear_out = nn.Linear(1024, 5)
 
     def forward(self, x:torch.Tensor):
         """Forward pass of the network.
