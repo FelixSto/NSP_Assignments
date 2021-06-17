@@ -44,7 +44,7 @@ class KeyWordCNN1d(nn.Module):
         self.pool1 = nn.MaxPool1d(30)
         
         self.linear1 = nn.Linear(num_kernels, 1024)        
-        self.linear_out = nn.Linear(1024, 5)
+        self.linear_out = nn.Linear(1024, num_classes)
 
     def forward(self, x:torch.Tensor):
         """Forward pass of the network.
@@ -115,11 +115,11 @@ class KeyWordCNN2d(nn.Module):
         self.num_classes = num_classes
         #TODO: define your model here
         
-        self.conv_layer = nn.Conv2d(1, num_kernels, kernel_size=(num_features, mem_depth),
-        	padding=(num_features-1, mem_depth-1))  
+        self.conv_layer = nn.Conv2d(1, num_kernels, kernel_size=(num_features, mem_depth), 
+                                    padding=(0, mem_depth-1))  
         self.flatten = nn.Flatten()
-        self.linear1 = nn.Linear(num_kernels*(2*num_features-1), 128*3)        
-        self.linear_out = nn.Linear(128*3, 5)
+        self.linear1 = nn.Linear(num_kernels, 1024)        
+        self.linear_out = nn.Linear(1024, num_classes)
 
     def forward(self, x):
         """Forward pass of the network.
