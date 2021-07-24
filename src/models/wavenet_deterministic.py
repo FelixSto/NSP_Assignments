@@ -30,8 +30,12 @@ class WaveNetDeterministic(nn.Module):
         hidden_size : int
             Number of hidden neurons (= number of kernels) of the 1x1 convolution before the output layer.
         """
+        
+        print('been in init')
+        
         super().__init__()
         self.kernel_size = kernel_size
+        print('kernel size', kernel_size)
         self.num_kernels = num_kernels
         self.in_channels = in_channels
         self.dilation_factor = dilation_factor
@@ -44,6 +48,7 @@ class WaveNetDeterministic(nn.Module):
         for m in range(num_cells):
             for k in range(1, blocks_per_cell):
                 dilation = dilation_factor ** k
+                #print('dilation = ', dilation)
                 res_blocks.append(ResidualBlock(num_kernels, kernel_size, dilation))
 
         self.residual_blocks = nn.ModuleList(res_blocks)
@@ -65,18 +70,24 @@ class WaveNetDeterministic(nn.Module):
         torch.Tensor
             The network output of shape (batch_size, 1, signal_length)
         """
+        #print('been in forward')
+        
         # convert input to torch.Tensor if necessary
         assert torch.is_tensor(x) and len(x.shape) == 3 and x.shape[1] == self.in_channels
 
         batch_size = x.shape[0]
         signal_length = x.shape[2]
+        #print('batch size = ', batch_size, '\nsignal length = ', signal_length) 
 
         x = self.initial_conv(F.pad(x, (self.kernel_size - 1, 0), value=0.))
+        #print('after initial conv: ,', x.shape)
+        
         assert x.shape == (batch_size, self.num_kernels, signal_length)
 
         skip_sum = torch.zeros(batch_size, self.num_kernels, signal_length)
         for residual_block in self.residual_blocks:
             skip, x = residual_block(x, fill_buffers)
+            #print('after')
             skip = F.pad(skip, (signal_length - skip.shape[-1], 0), value=0.)
             skip_sum += skip
 
@@ -103,6 +114,8 @@ class WaveNetDeterministic(nn.Module):
         torch.Tensor
             The generated signal of of shape (num_samples)
         """
+        print('been in generate')
+        
         self.eval()
         assert initial_samples is None or len(initial_samples.shape) == 3
 
@@ -165,6 +178,8 @@ class WaveNetDeterministic(nn.Module):
         torch.Tensor
             The generated signal of of shape (num_samples)
         """
+        print('been in generate slow')
+        
         self.eval()
         assert initial_samples is None or len(initial_samples.shape) == 3
 

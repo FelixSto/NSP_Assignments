@@ -28,9 +28,11 @@ class ResidualBlock(nn.Module):
         self.conv_buffer = torch.zeros(1, num_channels, self.buffer_size)
 
         # ToDo: define your conv layers
-        # self.feat_conv =
-        # self.gate_conv =
-        # self.mix_conv =
+        self.feat_conv = nn.Conv1d(num_channels, num_channels, kernel_size, dilation=self.dilation)
+        self.gate_conv = nn.Conv1d(num_channels, num_channels, kernel_size, dilation=self.dilation)
+        self.mix_conv =  nn.Conv1d(num_channels, num_channels, kernel_size=1)
+        
+        #print('been in residual init')
 
     def buffer_append(self, x: torch.Tensor):
         """ Append a sample to the convolution buffer.
@@ -40,8 +42,11 @@ class ResidualBlock(nn.Module):
         x : torch.Tensor
             Sample to append to the convolution buffer.
         """
+        #print('been here 1')
         assert x.shape == (1, self.num_channels, 1)
         self.conv_buffer = torch.cat((self.conv_buffer[:, :, 1:], x), dim=-1)
+        #print('been in residual buffer append')
+        
 
     def generate(self):
         """ Generate a single sample by evaluating the convolution buffer.
@@ -53,11 +58,22 @@ class ResidualBlock(nn.Module):
         """
 
         # ToDo: compute a forward pass given the conv buffer
-
-        # assert skip.shape == (1, self.num_channels, 1)
-        # assert residual.shape == (1, self.num_channels, 1)
-        #
-        # return skip, residual
+        # alles unsicher, fix falsch
+        
+        x = self.conv_buffer
+                
+        z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
+        z = self.mix_conv(z)
+        
+        skip = z
+        
+        temp = x[:,:,-1].unsqueeze(dim=2) # ??????????????????????
+        residual = z + temp
+        
+        assert skip.shape == (1, self.num_channels, 1)
+        assert residual.shape == (1, self.num_channels, 1)
+                
+        return skip, residual
 
     def forward(self, x, fill_buffer=False):
         """Forward pass of the network.
@@ -73,21 +89,29 @@ class ResidualBlock(nn.Module):
         ----------
         torch.Tensor, torch.Tensor
             The skip and residual connections of shape (batch_size, num_channels, signal_length)
-        """
+        """        
         assert torch.is_tensor(x) and len(x.shape) == 3
 
         batch_size = x.shape[0]
         signal_length = x.shape[2]
 
         # ToDo: do proper padding
-
+        
+        z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
+        pad_length = signal_length - z.shape[2]
+        
+        z = F.pad(z,(0, pad_length, 0, 0, 0, 0), 'constant', 0)
+        
         if fill_buffer:
             self.conv_buffer = z[:, :, -self.buffer_size:]
+            print('conv_buffer shape: ', self.conv_buffer.shape)
             assert self.conv_buffer.shape == (1, self.num_channels, self.buffer_size)
-
-
-        # ToDo: implement the forward pass
-
+            
+        z = self.mix_conv(z)
+        skip = z
+        residual= z + x
+        
+        
         assert skip.shape == (batch_size, self.num_channels, signal_length)
         assert residual.shape == (batch_size, self.num_channels, signal_length)
 
