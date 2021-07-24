@@ -61,6 +61,7 @@ class ResidualBlock(nn.Module):
         # alles unsicher, fix falsch
         
         x = self.conv_buffer
+        #print(x.shape)
                 
         z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
         z = self.mix_conv(z)
@@ -68,6 +69,7 @@ class ResidualBlock(nn.Module):
         skip = z
         
         temp = x[:,:,-1].unsqueeze(dim=2) # ??????????????????????
+        #temp = torch.mean(x, dim=2).unsqueeze(dim=2)
         residual = z + temp
         
         assert skip.shape == (1, self.num_channels, 1)
@@ -100,11 +102,10 @@ class ResidualBlock(nn.Module):
         z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
         pad_length = signal_length - z.shape[2]
         
-        z = F.pad(z,(0, pad_length, 0, 0, 0, 0), 'constant', 0)
+        z = F.pad(z,(pad_length, 0, 0, 0, 0, 0), 'constant', 0)
         
         if fill_buffer:
             self.conv_buffer = z[:, :, -self.buffer_size:]
-            print('conv_buffer shape: ', self.conv_buffer.shape)
             assert self.conv_buffer.shape == (1, self.num_channels, self.buffer_size)
             
         z = self.mix_conv(z)
