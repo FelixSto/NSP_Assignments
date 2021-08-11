@@ -57,21 +57,38 @@ class ResidualBlock(nn.Module):
             The skip and residual sample of shape (1, num_channels, 1).
         """
 
-        # ToDo: compute a forward pass given the conv buffer
-        # alles unsicher, fix falsch
+        # ToDo: compute a forward pass given the conv buffer       
         
-        x = self.conv_buffer
-        #print(x.shape)
+        """x = self.conv_buffer
+        #print("x.shape:", x.shape)
                 
         z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
         z = self.mix_conv(z)
         
         skip = z
         
-        temp = x[:,:,-1].unsqueeze(dim=2) # ??????????????????????
-        #temp = torch.mean(x, dim=2).unsqueeze(dim=2)
-        residual = z + temp
+        #print("skip.shape:", skip.shape)
         
+        temp = x[:,:,-1].unsqueeze(dim=2) # ?????????????????????? - Seems ok!
+        #print("Last buffer element = ", x[:,:,-1])
+        #print("Pre residual = ", temp)
+        #temp = torch.mean(x, dim=2).unsqueeze(dim=2)
+        residual = 0.92*(z + temp)"""
+        
+        x = self.conv_buffer
+        
+        pad_length = round(self.dilation*(self.kernel_size-1))
+        
+        x_pad = F.pad(x,(pad_length, 0))
+        
+        z = torch.tanh(self.feat_conv(x_pad)) * torch.sigmoid(self.gate_conv(x_pad))
+
+        z = self.mix_conv(z)
+        skip = z[:,:,-1].unsqueeze(dim=2)
+        residual= (skip + x[:,:,-1].unsqueeze(dim=2))
+        
+        #print("skip.shape:", skip.shape)
+        #print("x.shape:", x.shape)
         assert skip.shape == (1, self.num_channels, 1)
         assert residual.shape == (1, self.num_channels, 1)
                 
@@ -99,10 +116,11 @@ class ResidualBlock(nn.Module):
 
         # ToDo: do proper padding
         
-        z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
-        pad_length = signal_length - z.shape[2]
+        pad_length = round(self.dilation*(self.kernel_size-1))
         
-        z = F.pad(z,(pad_length, 0, 0, 0, 0, 0), 'constant', 0)
+        x_pad = F.pad(x,(pad_length, 0))
+
+        z = torch.tanh(self.feat_conv(x_pad)) * torch.sigmoid(self.gate_conv(x_pad))
         
         if fill_buffer:
             self.conv_buffer = z[:, :, -self.buffer_size:]
