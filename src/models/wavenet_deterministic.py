@@ -35,7 +35,7 @@ class WaveNetDeterministic(nn.Module):
         
         super().__init__()
         self.kernel_size = kernel_size
-        print('kernel size', kernel_size)
+        #print('kernel size', kernel_size)
         self.num_kernels = num_kernels
         self.in_channels = in_channels
         self.dilation_factor = dilation_factor
@@ -49,6 +49,7 @@ class WaveNetDeterministic(nn.Module):
             for k in range(1, blocks_per_cell):
                 dilation = dilation_factor ** k
                 #print('dilation = ', dilation)
+                #print('kernel_size = ', kernel_size)
                 res_blocks.append(ResidualBlock(num_kernels, kernel_size, dilation))
 
         self.residual_blocks = nn.ModuleList(res_blocks)
@@ -144,7 +145,7 @@ class WaveNetDeterministic(nn.Module):
         # generate samples
         for i in range(1, num_samples):
             residual = self.initial_conv(conv_buffer)
-
+            
             skip_sum = torch.zeros(1, self.num_kernels, 1)
             for residual_block in self.residual_blocks:
                 residual_block.buffer_append(residual)

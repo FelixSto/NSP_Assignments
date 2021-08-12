@@ -59,22 +59,6 @@ class ResidualBlock(nn.Module):
 
         # ToDo: compute a forward pass given the conv buffer       
         
-        """x = self.conv_buffer
-        #print("x.shape:", x.shape)
-                
-        z = torch.tanh(self.feat_conv(x)) * torch.sigmoid(self.gate_conv(x))
-        z = self.mix_conv(z)
-        
-        skip = z
-        
-        #print("skip.shape:", skip.shape)
-        
-        temp = x[:,:,-1].unsqueeze(dim=2) # ?????????????????????? - Seems ok!
-        #print("Last buffer element = ", x[:,:,-1])
-        #print("Pre residual = ", temp)
-        #temp = torch.mean(x, dim=2).unsqueeze(dim=2)
-        residual = 0.92*(z + temp)"""
-        
         x = self.conv_buffer
         
         pad_length = round(self.dilation*(self.kernel_size-1))
@@ -82,13 +66,11 @@ class ResidualBlock(nn.Module):
         x_pad = F.pad(x,(pad_length, 0))
         
         z = torch.tanh(self.feat_conv(x_pad)) * torch.sigmoid(self.gate_conv(x_pad))
-
-        z = self.mix_conv(z)
-        skip = z[:,:,-1].unsqueeze(dim=2)
+        z = self.mix_conv(z[:,:,-1].unsqueeze(dim=2))
+        
+        skip = z
         residual= (skip + x[:,:,-1].unsqueeze(dim=2))
         
-        #print("skip.shape:", skip.shape)
-        #print("x.shape:", x.shape)
         assert skip.shape == (1, self.num_channels, 1)
         assert residual.shape == (1, self.num_channels, 1)
                 
